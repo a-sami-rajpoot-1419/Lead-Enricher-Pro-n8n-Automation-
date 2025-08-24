@@ -1,0 +1,191 @@
+{
+  "name": "n8n_automation",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "id": "b829d6f0-8c3a-45a7-889c-b33bab67a8bd",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{$env.GSHEET_DOC_ID}}",
+          "mode": "list",
+          "cachedResultName": "n8n_test_automation_n"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{$env.GSHEET_SHEET_GID}}",
+          "mode": "list",
+          "cachedResultName": "Sheet1"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [288, 176],
+      "id": "d8720284-762d-490e-9da8-7a9540504373",
+      "name": "Get row(s) in sheet"
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/customsearch/v1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "key", "value": "={{$env.GOOGLE_API_KEY}}" },
+            { "name": "cx", "value": "={{$env.GOOGLE_CSE_ID}}" },
+            { "name": "q", "value": "={{$json[\"query\"]}}" },
+            { "name": "num", "value": "1" }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [848, -32],
+      "id": "02cb6069-659e-4d6a-b5c1-8e7640dcfab1",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "={{$env.GSHEET_DOC_ID}}",
+          "mode": "list",
+          "cachedResultName": "n8n_test_automation_n"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{$env.GSHEET_SHEET_GID}}",
+          "mode": "list",
+          "cachedResultName": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{$json[\"row_number\"]}}",
+            "Instagram": "={{$json[\"Instagram\"]}}",
+            "Website": "={{$json[\"Website\"]}}",
+            "Facebook": "={{$json[\"Facebook\"]}}",
+            "Yelp": "={{$json[\"Yelp\"]}}",
+            "tik tok": "={{$json[\"tik tok\"]}}",
+            "linkedin": "={{$json[\"linkedin\"]}}",
+            "youtube": "={{$json[\"youtube\"]}}",
+            "X": "={{$json[\"X\"]}}"
+          },
+          "matchingColumns": ["ID"],
+          "schema": [
+            { "id": "ID", "displayName": "ID", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false, "removed": false },
+            { "id": "Restaurant", "displayName": "Restaurant", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "Address", "displayName": "Address", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "Website", "displayName": "Website", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "Time of Meeting", "displayName": "Time of Meeting", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "Facebook", "displayName": "Facebook", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "Yelp", "displayName": "Yelp", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "Instagram", "displayName": "Instagram", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "Phone", "displayName": "Phone", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "tik tok", "displayName": "tik tok", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "linkedin", "displayName": "linkedin", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "youtube", "displayName": "youtube", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "X", "displayName": "X", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "Email", "displayName": "Email", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "owner/founder/ceo/cmo/cfo", "displayName": "owner/founder/ceo/cmo/cfo", "type": "string", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false },
+            { "id": "row_number", "displayName": "row_number", "type": "number", "canBeUsedToMatch": true, "display": true, "required": false, "defaultMatch": false, "readOnly": true, "removed": true }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [2752, 0],
+      "id": "dd6347e6-83a1-4ee1-9c02-6e89c0485ffc",
+      "name": "Update row in sheet"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [1968, 176],
+      "id": "c7bc98ef-0f21-4424-a6bb-765b81e4ae3d",
+      "name": "Merge",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Fan-out: for each sheet row, create one search query per platform\nconst platforms = [\n  { name: 'Website',  site: '' },\n  { name: 'Facebook', site: 'facebook.com' },\n  { name: 'Yelp',     site: 'yelp.com' },\n  { name: 'Instagram',site: 'instagram.com' },\n  { name: 'TikTok',   site: 'tiktok.com' },\n  { name: 'LinkedIn', site: 'linkedin.com' },\n  { name: 'YouTube',  site: 'youtube.com' },\n  { name: 'X',        site: 'twitter.com' },\n];\n\nconst out = [];\n\nfor (const item of items) {\n  const r = item.json;\n\n  const rowNum = r.row_number ?? r.rowNumber ?? r['row number'] ?? r.row ?? null;\n  const base = `${r.Restaurant || ''} ${r.Address || ''}`.trim();\n\n  for (const p of platforms) {\n    out.push({\n      json: {\n        row_number: rowNum,\n        ID: r.ID,\n        Restaurant: r.Restaurant,\n        Address: r.Address,\n        Website: r.Website || '',\n        Facebook: r.Facebook || '',\n        Yelp: r.Yelp || '',\n        Instagram: r.Instagram || '',\n        'tik tok': r['tik tok'] || '',\n        linkedin: r.linkedin || '',\n        youtube: r.youtube || '',\n        X: r.X || '',\n        _platform: p.name,\n        query: p.site ? `${base} site:${p.site}` : base,\n      },\n    });\n  }\n}\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, -48],
+      "id": "25c06993-39d9-4847-ab2f-5724bbd4fc21",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Aggregate multiple search + Hunter responses back into one object per sheet row\n\nconst fieldMap = {\n  Website:  'Website',\n  Facebook: 'Facebook',\n  Yelp:     'Yelp',\n  Instagram:'Instagram',\n  TikTok:   'tik tok',\n  LinkedIn: 'linkedin',\n  YouTube:  'youtube',\n  X:        'X',\n  Hunter:   'Hunter',\n};\n\nconst expectedDomain = {\n  Facebook: 'facebook.com',\n  Yelp:     'yelp.com',\n  Instagram:'instagram.com',\n  TikTok:   'tiktok.com',\n  LinkedIn: 'linkedin.com',\n  YouTube:  'youtube.com',\n  X:        'twitter.com',\n};\n\nconst grouped = {};\n\nfor (const item of items) {\n  const j = item.json;\n  const rowNum = j.row_number;\n  if (rowNum == null) continue;\n\n  if (!grouped[rowNum]) {\n    grouped[rowNum] = {\n      row_number: rowNum,\n      ID: j.ID || '',\n      Restaurant: j.Restaurant || '',\n      Address: j.Address || '',\n      Website: j.Website || '',\n      'Time of Meeting': j['Time of Meeting'] || '',\n      Facebook: j.Facebook || '',\n      Yelp: j.Yelp || '',\n      Instagram: j.Instagram || '',\n      Phone: j.Phone || '',\n      'tik tok': j['tik tok'] || '',\n      linkedin: j.linkedin || '',\n      youtube: j.youtube || '',\n      X: j.X || '',\n      Email: j.Email || '',\n      'owner/founder/ceo/cmo/cfo': j['owner/founder/ceo/cmo/cfo'] || '',\n    };\n  }\n\n  const platform = j._platform || '';\n  const field = fieldMap[platform];\n\n  if (field && field !== 'Hunter') {\n    const link = j.items?.[0]?.link || '';\n    if (link) {\n      let ok = true;\n      if (platform !== 'Website' && expectedDomain[platform]) {\n        try {\n          const u = new URL(link);\n          ok = u.hostname.includes(expectedDomain[platform]) && !u.pathname.startsWith('/search');\n        } catch (e) {\n          ok = false;\n        }\n      }\n      if (ok) {\n        grouped[rowNum][field] = link;\n      }\n    }\n  }\n\n  if (platform === 'Hunter') {\n    const hunterEmails = [];\n    if (Array.isArray(j.data?.emails)) {\n      for (const e of j.data.emails) {\n        const addr = e.value || '';\n        const position = e.position?.toLowerCase() || '';\n        const type = e.type || '';\n        if (!addr) continue;\n        if (position.includes('ceo') || position.includes('cfo') || position.includes('cmo') || position.includes('founder') || position.includes('owner')) {\n          hunterEmails.push(addr);\n        } else if (type === 'generic' || position === '' || position.includes('info') || position.includes('contact')) {\n          grouped[rowNum].Email = grouped[rowNum].Email || addr;\n        }\n      }\n    }\n    if (hunterEmails.length) {\n      const existing = grouped[rowNum]['owner/founder/ceo/cmo/cfo'];\n      grouped[rowNum]['owner/founder/ceo/cmo/cfo'] = existing ? existing + '; ' + hunterEmails.join('; ') : hunterEmails.join('; ');\n    }\n  }\n}\n\nreturn Object.values(grouped).map(r => ({ json: r }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2368, 0],
+      "id": "57e8ec63-cc6f-4f3a-9b0d-af3eaffe24cc",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "function cleanDomain(url) {\n  try {\n    let u = new URL(url);\n    let domain = u.hostname.replace(/^www\\./, \"\");\n    return domain;\n  } catch (err) {\n    return null;\n  }\n}\n\nlet links = [];\n\nif ($json.items && Array.isArray($json.items)) {\n  links = $json.items.map(i => i.link).filter(l => !!l);\n}\n\nif ($json.organic_results && Array.isArray($json.organic_results)) {\n  links = links.concat($json.organic_results.map(i => i.link || i.url).filter(l => !!l));\n}\n\nif ($json.data && Array.isArray($json.data)) {\n  links = links.concat($json.data.map(i => i.url || i.link).filter(l => !!l));\n}\n\nlet domains = [...new Set(links.map(cleanDomain).filter(d => !!d))];\n\nreturn {\n  json: {\n    raw_links: links,\n    clean_domains: domains\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1168, -144],
+      "id": "200d625b-6c73-4475-b05c-8c63f0f192dc",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "url": "https://api.hunter.io/v2/domain-search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "domain", "value": "={{$json[\"domain\"]}}" },
+            { "name": "api_key", "value": "={{$env.HUNTER_API_KEY}}" }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1376, -144],
+      "id": "306bd40a-de26-4a01-b23d-4520e88ad75d",
+      "name": "HTTP Request1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": { "main": [[{ "node": "Get row(s) in sheet", "type": "main", "index": 0 }]] },
+    "Get row(s) in sheet": { "main": [[{ "node": "Merge", "type": "main", "index": 1 }, { "node": "Code1", "type": "main", "index": 0 }]] },
+    "HTTP Request": { "main": [[{ "node": "Code2", "type": "main", "index": 0 }, { "node": "Merge", "type": "main", "index": 1 }]] },
+    "Merge": { "main": [[{ "node": "Code", "type": "main", "index": 0 }]] },
+    "Code1": { "main": [[{ "node": "HTTP Request", "type": "main", "index": 0 }]] },
+    "Code": { "main": [[{ "node": "Update row in sheet", "type": "main", "index": 0 }]] },
+    "Code2": { "main": [[{ "node": "HTTP Request1", "type": "main", "index": 0 }]] },
+    "HTTP Request1": { "main": [[{ "node": "Merge", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "versionId": "redacted",
+  "meta": { "templateCredsSetupCompleted": true },
+  "id": "2jJK53yaMBpdHtEC",
+  "tags": []
+}
